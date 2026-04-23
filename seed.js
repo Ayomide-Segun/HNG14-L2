@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Profile = require('./models/Profile');
-const data = require('./profiles.json'); // your dataset
+const Profile = require('./model.js');
+const data = require('./profiles.json').profiles; // your dataset
 const { v7: uuidv7 } = require('uuid');
 require('dotenv').config();
 const seedDB = async () => {
