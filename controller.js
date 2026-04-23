@@ -236,6 +236,8 @@ exports.getProfileUsingQuery = async(req, res) => {
 }
 
 exports.naturalLanguageQuery = async (req, res) => {
+    const { q } = req.query;
+    
     try {
         let filter = {};
         let interpreted = false;
