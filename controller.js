@@ -235,8 +235,7 @@ exports.getProfileUsingQuery = async(req, res) => {
     }
 }
 
-exports.naturalLanguageQuery = async(req, res) => {
-    const q = req.query.q?.toLowerCase();
+exports.naturalLanguageQuery = async (req, res) => {
     try {
         let filter = {};
         let interpreted = false;
@@ -260,6 +259,9 @@ exports.naturalLanguageQuery = async(req, res) => {
         }
 
         let ageFilter = {};
+        const aboveMatch = q.match(/above (\d+)/);
+        const belowMatch = q.match(/below (\d+)/);
+        
         if (q.includes("young")) {
             ageFilter.$gte = 16;
             ageFilter.$lte = 24;
@@ -337,13 +339,12 @@ exports.naturalLanguageQuery = async(req, res) => {
         });
 
     } catch (error) {
-        console.log(error);
         return res.status(500).json({
             status: "error",
             message: "Internal server error"
         });
     }
-}
+};
 
 exports.deleteProfiles = async(req, res) => {
     const {id} = req.params;
