@@ -1,4 +1,4 @@
-const Profile = require("./model");
+const Profile = require("../models/model");
 const axios = require("axios");
 const { v7 : uuidv7 } = require('uuid');
 const countryLib = require("i18n-iso-countries");
@@ -219,11 +219,21 @@ exports.getProfileUsingQuery = async(req, res) => {
             .skip(skip)
             .limit(limit);
 
+        const total_pages = Math.ceil(total / limit);
+        const baseUrl = `${req.protocol}://${req.get("host")}${req.baseUrl}${req.path}`;
+        const buildLink = (p) => `${baseUrl}?page=${p}&limit=${limit}`
+
         res.status(200).json({
             status: "success",
             page,
             limit,
             total,
+            total_pages,
+            links: {
+                self: buildLink(page),
+                next: page < total_pages ? buildLink(page + 1) : null,
+                prev: page > 1 ? buildLink(page - 1) : null
+            },
             data
         });
         
